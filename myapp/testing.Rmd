@@ -1,0 +1,49 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+dat_20260202 <- read_xlsx("Ringkasan Saham 20260202.xlsx")
+
+dat_20260202
+
+```
+
+
+
+
+```{r}
+library(stringr)
+
+
+
+dat <- dat_20260202[c("Tanggal Perdagangan Terakhir", "Penutupan")]
+dat <- as.data.frame(dat)
+
+
+dat[,1] <- str_replace_all(dat[,1], " ", "")
+
+
+dat[,1] <- as.Date(dat[,1], "%d%b%Y")
+
+
+dat
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
