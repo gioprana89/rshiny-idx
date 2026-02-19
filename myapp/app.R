@@ -353,6 +353,30 @@ modul_literature_review_ui <- function(id) {
                                        column(3,
                                               
                                               
+                                              
+                                              
+                                              
+                                              #2025-11-03
+                                              #13 Feb 2026
+
+                                              
+                                              dateRangeInput(ns("daterange3"), "Date range:",
+                                                             start  = "2025-11-03",
+                                                             end    = "2026-02-13",
+                                                             min    = "2025-11-03",
+                                                             max    = "2026-02-13",
+                                                             format = "mm/dd/yy",
+                                                             separator = " - "),
+                                              
+                                              
+                                       
+                                              
+                                              
+                                              
+                                              
+                                              
+                                              
+                                              
                                               radioButtons(ns("bar_theme"), h4("Theme:",style="color:orange;text-shadow: -1px 0 black,
 0 1px black, 1px 0 black, 0 -1px black; text-align:left"), c("gray" = "1", "BW"="2",
                                                              "dark"="3", "classic"="4", "linedraw"="5", "economist"="6", "theme_wsj" = "7", "theme_solarized" = "8",
@@ -2507,10 +2531,34 @@ modul_literature_review_server <- function(input, output, session) {
     susun_data = as.data.frame(susun_data)
     
     
+    print("prana ugiana gio")
+    print("prana ugiana gio")
+    print("prana ugiana gio")
+    print("prana ugiana gio")
     
     print(susun_data)
     print(susun_data)
     
+    
+    DatesMerge <- input$daterange3
+    print(DatesMerge)
+    print(DatesMerge)
+    
+    print(DatesMerge[1])
+    print(DatesMerge[2])
+    
+    #st <- as.Date("2025-12-25")
+    #en <- as.Date("2026-01-05")
+    
+    st <- DatesMerge[1]
+    st <- as.Date(st)
+    en <- DatesMerge[2]
+    en <- as.Date(en)
+    
+    buat_tanggal <- seq.Date(from = st, to = en, by = 1)
+    
+    print(buat_tanggal)
+    print(buat_tanggal)
     
     
   #  p <-   ggplot(susun_data, 
@@ -2519,6 +2567,15 @@ modul_literature_review_server <- function(input, output, session) {
      # geom_point(color = "black", size = 1) +
       #facet_wrap(~x1, scales = "free", ncol = 2) +
       #labs(color='')
+    
+    
+    
+    data_lengkap_tanggal <- susun_data[,2]  #2 itu kolom tanggal
+    
+    indeks_tanggal <-  data_lengkap_tanggal %in% buat_tanggal
+    indeks_tanggal <- which(indeks_tanggal == TRUE)
+    susun_data <- susun_data[c(indeks_tanggal),]
+    
     
     
     
