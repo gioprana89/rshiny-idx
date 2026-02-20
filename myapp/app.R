@@ -364,7 +364,7 @@ modul_literature_review_ui <- function(id) {
                                                              start  = "2025-11-03",
                                                              end    = "2026-02-13",
                                                              min    = "2025-11-03",
-                                                             max    = "2026-02-13",
+                                                             max    = "2026-03-31",
                                                              format = "mm/dd/yy",
                                                              separator = " - "),
                                               
