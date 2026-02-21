@@ -361,9 +361,9 @@ modul_literature_review_ui <- function(id) {
 
                                               
                                               dateRangeInput(ns("daterange3"), "Date range:",
-                                                             start  = "2025-11-03",
-                                                             end    = "2026-02-13",
-                                                             min    = "2025-11-03",
+                                                             start  = "2025-10-02",
+                                                             end    = "2026-02-20",
+                                                             min    = "2025-10-02",
                                                              max    = "2026-03-31",
                                                              format = "mm/dd/yy",
                                                              separator = " - "),
