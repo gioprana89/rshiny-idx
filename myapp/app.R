@@ -370,6 +370,11 @@ modul_literature_review_ui <- function(id) {
                                               
                                               
                                        
+                                              br(),
+                                              
+                                              
+                                              uiOutput(ns("radio_button_pilih_variabel_untuk_visualisasi_grafik_garis")),                
+                                              
                                               
                                               
                                               
@@ -618,9 +623,7 @@ modul_literature_review_ui <- function(id) {
                                      br(),
                                      
                                      
-                                     
-                                     
-                                     
+                                 
                                      
                                      tabsetPanel(
                                        
@@ -2383,6 +2386,141 @@ modul_literature_review_server <- function(input, output, session) {
   ####################
   
   
+  
+  fungsi_nama_variabel_hargasaham_volumesaham_dst_untuk_grafik_garis <- function()
+  {
+    
+    
+    perusahaan_terpilih_tab_visualisasi <- input$terpilih_checkbox_pilih_perusahaan_dari_tab_pilihperusahaan
+    perusahaan_terpilih_tab_visualisasi <- unlist(perusahaan_terpilih_tab_visualisasi)
+    perusahaan_terpilih_tab_visualisasi <- as.character(perusahaan_terpilih_tab_visualisasi)
+    
+    
+    
+    #############
+    #############
+    
+    #2026-Februari
+    
+    data_harga_saham <- read_xlsx("data harga saham.xlsx")
+    
+    
+    #dat_20260202 <- read_xlsx("Ringkasan Saham 20260202.xlsx")
+    #dat_20260203 <- read_xlsx("Ringkasan Saham 20260203.xlsx")
+    #dat_20260204 <- read_xlsx("Ringkasan Saham 20260204.xlsx")
+    #dat_20260205 <- read_xlsx("Ringkasan Saham 20260205.xlsx")
+    #dat_20260206 <- read_xlsx("Ringkasan Saham 20260206.xlsx")
+    #dat_20260209 <- read_xlsx("Ringkasan Saham 20260209.xlsx")
+    #dat_20260210 <- read_xlsx("Ringkasan Saham 20260210.xlsx")
+    #dat_20260211 <- read_xlsx("Ringkasan Saham 20260211.xlsx")
+    #dat_20260212 <- read_xlsx("Ringkasan Saham 20260212.xlsx")
+    
+    
+    
+    
+    
+    #dat_2026_feb_lengkap <- rbind(dat_20260202, dat_20260203, dat_20260204, dat_20260205, dat_20260206, dat_20260209, dat_20260210, dat_20260211, 
+    #                             dat_20260212)
+    
+    nama_perusahaan_lengkap <- data_harga_saham[,"Kode Saham"]
+    nama_perusahaan_lengkap <- unlist(nama_perusahaan_lengkap)
+    names(nama_perusahaan_lengkap) = NULL
+    nama_perusahaan_lengkap <- as.character(nama_perusahaan_lengkap)
+    # print(nama_perusahaan_lengkap)
+    
+    
+    
+    
+    
+    
+    #print(perusahaan_terpilih)
+    
+    
+    indeks <-  nama_perusahaan_lengkap %in% perusahaan_terpilih_tab_visualisasi
+    indeks <- which(indeks == TRUE)
+    data_terpilih <- data_harga_saham[c(indeks),]
+    
+    #print(data_terpilih)
+    
+    
+    dat <- data_terpilih
+    dat <- as.data.frame(dat)
+    
+    
+    
+    nama <- colnames(dat)
+    
+    return(nama)
+    
+    
+    
+  }
+  
+  
+  ######################
+  ######################
+  
+  
+  
+  
+  output$radio_button_pilih_variabel_untuk_visualisasi_grafik_garis <- renderUI({
+    
+    
+    
+   # radioButtons(ns("bar_theme"), h4("Theme:",style="color:orange;text-shadow: -1px 0 black,
+#0 1px black, 1px 0 black, 0 -1px black; text-align:left"), c("gray" = "1", "BW"="2",
+  #                                                           "dark"="3", "classic"="4", "linedraw"="5", "economist"="6", "theme_wsj" = "7", "theme_solarized" = "8",
+   #                                                          "theme_gdocs" = "9", "theme_fivethirtyeight" = "10", "theme_calc" = "11"), inline=TRUE, selected = "4"   ),
+    
+      
+    radioButtons(session$ns("terpilih_nama_variabel_hargasaham_volumesaham_dst_untuk_grafik_garis"), 
+                       label="Pilih Variabel:", choices = c(fungsi_nama_variabel_hargasaham_volumesaham_dst_untuk_grafik_garis()), 
+                       selected=c("Penutupan"), inline = TRUE)
+    
+    
+    
+    
+   #   checkboxGroupInput(session$ns("terpilih_variabel_jurnal_nasional_akuntansi_sinta"), 
+    #                     label="Pilih Variabel:", choices = c(nama_variabel_jurnal_nasional_akuntansi_sinta()), 
+     #                    selected=c("Nama Jurnal", "E-ISSN", "Sinta", "Sinta Berlaku Sampai", "Alamat Jurnal", "Frekuensi Publikasi dalam 1 Tahun", "Biaya"), inline = TRUE)
+      #
+      
+ 
+    
+    
+  })
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  ##################
+  ##################
+  
+  
   fungsi_visualisasi_grafik_garis <- function()
   {
     
@@ -2451,8 +2589,15 @@ modul_literature_review_server <- function(input, output, session) {
     
     colnames(dat)[c(7)] <- "Tanggal"
     
-    #2 kode saham, 7 tanggal, 11 penutupan
-    dat2 <- dat[c(2,7,11)]
+    terpilih_nama_variabel_hargasaham_volumesaham_dst_untuk_grafik_garis <- input$terpilih_nama_variabel_hargasaham_volumesaham_dst_untuk_grafik_garis
+    terpilih_nama_variabel_hargasaham_volumesaham_dst_untuk_grafik_garis <- as.character(terpilih_nama_variabel_hargasaham_volumesaham_dst_untuk_grafik_garis)
+   
+    namaaa <- colnames(dat)
+    indeks <- namaaa %in% terpilih_nama_variabel_hargasaham_volumesaham_dst_untuk_grafik_garis
+    indeks <- which(indeks == TRUE)
+    
+     #2 kode saham, 7 tanggal, 11 penutupan
+    dat2 <- dat[c(2,7,indeks)]
     
     dat2 <- as.data.frame(dat2)
     
@@ -2843,6 +2988,8 @@ modul_literature_review_server <- function(input, output, session) {
     }
     
     
+    
+    gambar <- gambar + ylab(paste0(terpilih_nama_variabel_hargasaham_volumesaham_dst_untuk_grafik_garis))
     
     return(gambar)    
     
